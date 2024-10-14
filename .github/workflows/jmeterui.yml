@@ -1,0 +1,20 @@
+name: Performance test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  hello_world_job:
+    runs-on: self-hosted
+
+    steps:
+    - name: Performance test
+      run: echo "PTUIAutomation"
+      
+    - uses: actions/checkout@v3
+    
+    - name: Print files
+      run: ls
+
+    - name: Performancce test
+      run: jmeter -n -t ./SampleAPI.jmx -Jpath=api/users?page=1 -Jduration=110 -Jusers=10 -Jrampup=10 -l ./SampleAPIjtl.jtl
