@@ -1,6 +1,6 @@
 #!/bin/bash
 GITHUB_REPO="Nagarajcts/Jmeterui"  
-GITHUB_TOKEN="REPO_TOKEN"    
+GITHUB_TOKEN="2CX6PgUlPZrdv3vEtK75Q6tZ9yF3fk3qy7cG"    
 GITHUB_WORKFLOW="jmeterui.yml"      
 REF="main"                             
 
