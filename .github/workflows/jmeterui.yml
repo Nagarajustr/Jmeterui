@@ -1,10 +1,7 @@
 name: Run Jmeter Tests 
 
 on:
-  workflow_run:
-    workflows: ["build runner image"]
-    types:
-      - completed
+  workflow_dispatch:
 
 jobs:
   jmeter_job:
@@ -22,9 +19,12 @@ jobs:
     - name: Create reports directory
       run: mkdir reports
       
+      
     - name: Run JMeter Tests
       run: |
+       chmod +x ./SampleAPI.jmx
        ./SampleAPI.jmx
+       
        args: "-JPath=api/users?page=2 -e -o ./reports/html/"
         
     - name: Upload Results
