@@ -1,6 +1,6 @@
 #Docker configuration
 
-name: Performance test
+name: build runner image 
 on:
   workflow_dispatch:
 jobs:
