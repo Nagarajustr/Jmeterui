@@ -9,7 +9,7 @@ jobs:
     env:
       JMETER_THREADS: 10
       JMETER_DURATION: 60
-      JMETER_PATH: './SampleAPI.jmx'
+      JMETER_PATH: 'SampleAPI.jmx'
       
     name: JMeter Test Execution
     steps:      
@@ -22,8 +22,8 @@ jobs:
       
     - name: Run JMeter Tests
       run: |
-       chmod +x /SampleAPI.jmx
-       /SampleAPI.jmx
+       chmod +x SampleAPI.jmx
+       SampleAPI.jmx
        
        args: "-JPath=api/users?page=2 -e -o ./reports/html/"
         
