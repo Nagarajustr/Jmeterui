@@ -56,6 +56,7 @@ RUN java -version
     tar xzvf apache-jmeter-5.1.1.tgz && \
      mv apache-jmeter-5.1.1 /opt/jmeter && \
      ln -s /opt/jmeter/bin/jmeter /usr/bin/jmeter
+ COPY SampleAPI.jmx //home/runner/work/_temp/    
  ENV PATH /opt/jmeter/bin:$PATH
 
 #Verify JMeter installation
