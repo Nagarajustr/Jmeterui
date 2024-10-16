@@ -13,19 +13,23 @@ jobs:
     steps:      
     - name: Checkout
       uses: actions/checkout@v4
+      
     - name: Create reports directory
       run: mkdir reports
+      
     - name: Run JMeter Tests
       uses: QAInsights/PerfAction@v5.6.2
       with:
         test-plan-path: ./API.jmx
         args: "-JPath=api/users?page=2 -e -o ./reports/html/"
+        
     - name: Upload Results
       uses: actions/upload-artifact@v4
       with:
         name: jmeter-results
         path: result.jtl
         if-no-files-found: error
+        
     - name: Upload HTML Reports
       uses: actions/upload-artifact@v4
       with:
