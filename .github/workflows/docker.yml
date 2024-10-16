@@ -22,9 +22,7 @@ jobs:
       run: docker build --build-arg RUNNER_VERSION=2.319.1 -t nagarajucts/jmeterrepo:latest .
  
     - name: Push to Dockerhub
-      run: docker push nagarajucts/jmeterrepo:latest .
+      run: docker push nagarajucts/jmeterrepo:latest 
  
     - name: Pull Docker image
-      run: docker pull nagarajucts/jmeterrepo:latest .
-
-      
+      run: docker pull nagarajucts/jmeterrepo:latest 
