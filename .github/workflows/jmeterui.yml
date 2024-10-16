@@ -23,9 +23,9 @@ jobs:
       run: mkdir reports
       
     - name: Run JMeter Tests
-      with:
-        test-plan-path: ./SampleAPI.jmx
-        args: "-JPath=api/users?page=2 -e -o ./reports/html/"
+      run: |
+       ./SampleAPI.jmx
+       args: "-JPath=api/users?page=2 -e -o ./reports/html/"
         
     - name: Upload Results
       uses: actions/upload-artifact@v4
