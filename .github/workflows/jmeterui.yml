@@ -22,8 +22,8 @@ jobs:
       
     - name: Run JMeter Tests
       run: |
-       chmod +x ./SampleAPI.jmx
-       ./SampleAPI.jmx
+       chmod +x /SampleAPI.jmx
+       /SampleAPI.jmx
        
        args: "-JPath=api/users?page=2 -e -o ./reports/html/"
         
