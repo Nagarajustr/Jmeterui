@@ -22,11 +22,9 @@ jobs:
       
     - name: Run JMeter Tests
       run: |
-       chmod +x SampleAPI.jmx
-       SampleAPI.jmx
+       ls
+       jmeter -n -t ./SampleAPI.jmx -Jpath=api/users?page=1 -Jduration=110 -Jusers=10 -Jrampup=10 -l ./SampleAPIjtl.jtl
        
-       args: "-JPath=api/users?page=2 -e -o ./reports/html/"
-        
     - name: Upload Results
       uses: actions/upload-artifact@v4
       with:
