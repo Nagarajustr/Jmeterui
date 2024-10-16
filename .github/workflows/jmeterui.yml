@@ -1,7 +1,10 @@
 name: Performance test
 
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["docker.yml"]
+    types:
+      - completed
 
 jobs:
   hello_world_job:
