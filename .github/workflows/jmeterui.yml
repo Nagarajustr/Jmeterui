@@ -2,7 +2,7 @@ name: Performance test
 
 on:
   workflow_run:
-    workflows: ["docker.yml"]
+    workflows: ["build runner image"]
     types:
       - completed
 
