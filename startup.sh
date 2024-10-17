@@ -1,10 +1,10 @@
 #!/bin/bash
 
  
-GH_OWNER=$GH_OWNER
-GH_REPOSITORY=$GH_REPOSITORY
-GH_TOKEN=$GH_TOKEN
-GH_LABEL=$GH_LABEL
+GH_OWNER="Nagarajucts"
+GH_REPOSITORY="Jmeterui"
+GH_TOKEN="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"
+GH_LABEL="docker_runner"
  
 RUNNER_SUFFIX=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 5 | head -n 1)
 RUNNER_NAME="dockerNodeDevOps-${RUNNER_SUFFIX}" --lables $GH_LABEL
