@@ -32,9 +32,15 @@ jobs:
         path: SampleAPIjtl.jtl
         if-no-files-found: error
         
+        
+    - name: Run JMeter Tests
+      run: |
+       ls
+       jmeter -g ./SampleAPIjtl.jtl -o ./html_report
+       
     - name: Upload HTML Reports
       uses: actions/upload-artifact@v4
       with:
         name: jmeter-reports
-        path: reports
+        path: html_report
         if-no-files-found: error
