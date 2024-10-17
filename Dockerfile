@@ -12,7 +12,7 @@ LABEL RunnerVersion=${RUNNER_VERSION}
 
 # update the base packages + add a non-sudo user
 
-RUN apt-get update -y && apt-get upgrade -y && useradd -m docker
+RUN apt-get update -y && useradd -m docker
 
 # install the packages and dependencies along with jq so we can parse JSON (add additional packages as necessary)
 
