@@ -1,30 +1,27 @@
+# This is a workflow for XXXX Project with Actions
 name: Run Jmeter Tests 
-
+# Controls when the workflow will run
 on:
   workflow_dispatch:
-
+# A workflow run is made up of one or more jobs that can run sequentially 
 jobs:
   jmeter_job:
+# The type of runner that the job will run on  
     runs-on: self-hosted
-    #env:
-      #JMETER_THREADS: 10
-      #JMETER_DURATION: 60
-      #JMETER_PATH: 'SampleAPI.jmx'
-      
+    
+# Git Checks-out our repository      
     name: JMeter Test Execution
     steps:      
     - name: Checkout
       uses: actions/checkout@v4
       
-    - name: Create reports directory
-      run: mkdir reports
-      
-      
+   # Run the Jmeter test cases 
     - name: Run JMeter Tests
       run: |
        ls
        jmeter -n -t ./SampleAPI.jmx -Jpath=api/users?page=1 -Jduration=110 -Jusers=10 -Jrampup=10 -l ./SampleAPIjtl.jtl
        
+   # Upload the Jmeter results     
     - name: Upload Results
       uses: actions/upload-artifact@v4
       with:
@@ -32,12 +29,13 @@ jobs:
         path: SampleAPIjtl.jtl
         if-no-files-found: error
         
-        
+   # Generate an HTML Report     
     - name: Run JMeter Tests
       run: |
        ls
        jmeter -g ./SampleAPIjtl.jtl -o ./html_report
        
+    # upload the HTML Reports    
     - name: Upload HTML Reports
       uses: actions/upload-artifact@v4
       with:
