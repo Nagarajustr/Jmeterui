@@ -42,3 +42,13 @@ jobs:
         name: jmeter-reports
         path: html_report
         if-no-files-found: error
+        
+    # Filter_parameter
+    - name: Filter and convert .jtl to .csv
+      run: |
+          ./JMeterPluginsCMD.sh --generate-csv results.csv --input-jtl SampleAPIjtl.jtl --plugin-type AggregateReport
+ 
+    - name: Run Python comparision script
+      run: |
+          python python.py
+     
