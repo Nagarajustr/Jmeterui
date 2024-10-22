@@ -1,0 +1,38 @@
+name: FT_API_Rest_test
+on:
+  workflow_dispatch:
+jobs:
+  runnercreation:
+    name: Creating Github runner
+    runs-on: idt_linux
+    steps:
+    - name: Connect to AWS
+      run: echo connected to AWS
+    - name: Scale up Runnersin git
+      run: echo Scale up to 5
+  example_matrix:
+    needs: runnercreation
+    name: script_execution
+    runs-on: idt_linux
+    strategy:
+      matrix:
+        scriptfolder: [Rest_Add_Edit_Admin_Options, Rest_Add_Edit_Admin_Options]
+    
+    steps:
+    - name: Check out
+      uses: actions/checkout@v3
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'corretto'
+        cache: 'maven'
+     
+    - name: Rest_Add_Edit_Admin_Options
+      run: | 
+        echo current working directory is 
+        pwd
+        cd ${{ matrix.scriptfolder }}
+        pwd
+#        python3 runWithMaven.py -hostport $hostport -userName $userName -password $password -environment $environment -secureProtocol YES -endPoint $endpoint -apiKey $apiKey -project $project 
+      
