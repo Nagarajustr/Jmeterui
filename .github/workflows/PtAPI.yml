@@ -86,8 +86,8 @@ jobs:
       id: aws-sts
       uses: aws-actions/configure-aws-credentials@v3
       with:
-	role-to-assume: arn:aws:iam::739275441922:role/Sourabh-OpenID
-        aws-region:'us-east-1'
+        role-to-assume: arn:aws:iam::739275441922:role/Sourabh-OpenID
+        aws-region: 'us-east-1'  # Specify your AWS region
 	# Scale the Service with count 
     - name: Run ECS Service Scaling
       run: |
