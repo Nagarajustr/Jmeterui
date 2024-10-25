@@ -70,28 +70,25 @@ jobs:
         name: jmeter-reports
         path: html_report
         if-no-files-found: error
-
   stop-service:
-	runs-on: ubuntu-latest
-	- name: Set up Python
-	  uses: actions/setup-python@v4
-	  with:
-	    python-version: '3.x'
-	- name: Install Boto3
-	  run: |     
-	    pip install boto3
-	- name: Checkout code to download scripts
-	  uses: actions/checkout@v2
-	 
-	- name: Github to AWS connection using OIDC
-	  id: aws-sts
-	  uses: aws-actions/configure-aws-credentials@v3
-	  with:
-	    role-to-assume: arn:aws:iam::739275441922:role/Sourabh-OpenID
-	    aws-region: 'us-east-1'  # Specify your AWS region
-
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    - name: Install Boto3
+      run: |     
+        pip install boto3
+    - name: Checkout code to download scripts
+      uses: actions/checkout@v2
+    - name: Github to AWS connection using OIDC
+      id: aws-sts
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+	role-to-assume: arn:aws:iam::739275441922:role/Sourabh-OpenID
+        aws-region:'us-east-1'
 	# Scale the Service with count 
-	- name: Run ECS Service Scaling
-	  run: |
-	    DESIRED_COUNT=${{ steps.set-matrix-count.outputs.count }}
-	    python scale_ecs_service.py --cluster_name TRPerformanceAPI --service_name PT_API --desired_count 0
+    - name: Run ECS Service Scaling
+      run: |
+        python scale_ecs_service.py --cluster_name TRPerformanceAPI --service_name PT_API --desired_count 0
