@@ -1,0 +1,105 @@
+# This is a workflow for XXXX Project with Actions
+name: Run Jmeter Tests 
+# Controls when the workflow will run
+on:
+  workflow_dispatch:
+# A workflow run is made up of one or more jobs that can run sequentially 
+
+
+jobs:
+  scale-ecs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    - name: Install Boto3
+      run: |     
+        pip install boto3
+    - name: Checkout code to download scripts
+      uses: actions/checkout@v2
+     
+    - name: Github to AWS connection using OIDC
+      id: aws-sts
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        role-to-assume: arn:aws:iam::739275441922:role/Sourabh-OpenID
+        aws-region: 'us-east-1'  # Specify your AWS region
+       
+    # Check If Any service is running in ECS cluster , if yes job will fail else it will execute
+    - name: Run ECS Check
+      run: |
+        pwd
+        ls -la
+        python check_ecs.py --cluster_name TRPerformanceAPI
+    # Scale the Service with count 
+    - name: Run ECS Service Scaling
+      run: |
+        DESIRED_COUNT=${{ steps.set-matrix-count.outputs.count }}
+        python scale_ecs_service.py --cluster_name TRPerformanceAPI --service_name PT_API --desired_count 1
+       
+  jmeter_job:
+# The type of runner that the job will run on  
+    runs-on: self-hosted
+    needs: scale-ecs
+# Git Checks-out our repository      
+    name: JMeter Test Execution
+    steps:      
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+   # Run the Jmeter test cases 
+    - name: Run JMeter Tests
+      run: |
+       ls
+       jmeter -n -t ./SampleAPI.jmx -Jpath=api/users?page=1 -Jduration=110 -Jusers=10 -Jrampup=10 -l ./SampleAPIjtl.jtl
+       
+   # Upload the Jmeter results     
+    - name: Upload Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: jmeter-results
+        path: SampleAPIjtl.jtl
+        if-no-files-found: error
+        
+   # Generate an HTML Report     
+    - name: Run JMeter Tests
+      run: |
+       ls
+       jmeter -g ./SampleAPIjtl.jtl -o ./html_report
+       
+    # upload the HTML Reports    
+    - name: Upload HTML Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: jmeter-reports
+        path: html_report
+        if-no-files-found: error
+
+  stop-service: 
+    needs: jmeter_job  
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    - name: Install Boto3
+      run: |     
+        pip install boto3
+    - name: Checkout code to download scripts
+      uses: actions/checkout@v2
+     
+    - name: Github to AWS connection using OIDC
+      id: aws-sts
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        role-to-assume: arn:aws:iam::739275441922:role/Sourabh-OpenID
+        aws-region: 'us-east-1'  # Specify your AWS region
+
+    # Scale the Service with count 
+    - name: Run ECS Service Scaling
+      run: |
+        DESIRED_COUNT=${{ steps.set-matrix-count.outputs.count }}
+        python scale_ecs_service.py --cluster_name TRPerformanceAPI --service_name PT_API --desired_count 0
