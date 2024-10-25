@@ -3,7 +3,10 @@ name: PT API
 # Controls when the workflow will run
 on:
   workflow_dispatch:
-# A workflow run is made up of one or more jobs that can run sequentially 
+# A workflow run is made up of one or more jobs that can run sequentially
+env:
+  cluster_name: TRPerformanceAPI
+  service_name: PT_API
 permissions:
   id-token: write  # Required for OIDC
   contents: read   # Allows reading repo contents
@@ -39,7 +42,7 @@ jobs:
     - name: Run ECS Service Scaling
       run: |
         DESIRED_COUNT=${{ steps.set-matrix-count.outputs.count }}
-        python scale_ecs_service.py --cluster_name TRPerformanceAPI --service_name PT_API --desired_count 1
+        python scale_ecs_service.py --cluster_name ${{ cluster_name }} --service_name ${{ service_name }} --desired_count 1
        
   jmeter_job:
 # The type of runner that the job will run on  
@@ -104,4 +107,4 @@ jobs:
     - name: Run ECS Service Scaling
       run: |
         DESIRED_COUNT=${{ steps.set-matrix-count.outputs.count }}
-        python scale_ecs_service.py --cluster_name TRPerformanceAPI --service_name PT_API --desired_count 0
+        python scale_ecs_service.py --cluster_name ${{ cluster_name }} --service_name ${{ service_name }} --desired_count 0
